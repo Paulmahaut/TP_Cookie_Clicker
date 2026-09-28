@@ -2,20 +2,20 @@
 
 <template>
   <div class="jeu">
-    <header>
-      <h1>Loot Farmer</h1>
-      <p class="xp">{{ Math.floor($store.state.xp) }} XP</p>
-      <p class="stats">
-        {{ $store.getters.xpParSeconde }} XP/s auto · {{ $store.state.xpParClic }} XP/clic
-      </p>
-    </header>
+    <div class="hud">
+      <span class="titre">Loot Farmer</span>
+      <span class="xp">{{ Math.floor($store.state.xp) }} XP</span>
+      <span class="stats">{{ $store.getters.xpParSeconde }} XP/s · {{ $store.state.xpParClic }} XP/clic</span>
+    </div>
 
-    <button class="bouton-farm" @click="$store.commit('ajouterXP')">
-      Farmer du butin
-    </button>
+    <div class="corps">
+      <div class="arene">
+        <button class="bouton-farm" @click="$store.commit('ajouterXP')">
+          Farmer du butin
+        </button>
+      </div>
 
-    <div class="colonnes">
-      <section>
+      <aside class="boutique">
         <h3>Production automatique</h3>
         <button
           v-for="upgrade in $store.state.upgrades"
@@ -28,9 +28,7 @@
           <span>{{ upgrade.cout }} XP · +{{ upgrade.production }} XP/s</span>
           <span class="quantite">possédées : {{ upgrade.quantite }}</span>
         </button>
-      </section>
 
-      <section>
         <h3>Puissance de clic</h3>
         <button
           v-for="amelioration in $store.state.ameliorationsClic"
@@ -43,29 +41,35 @@
           <span>{{ amelioration.cout }} XP · +{{ amelioration.bonus }} XP/clic</span>
           <span class="quantite">possédées : {{ amelioration.quantite }}</span>
         </button>
-      </section>
+      </aside>
     </div>
   </div>
 </template>
 
 <style scoped>
 .jeu {
-  max-width: 720px;
-  margin: 0 auto;
-  padding: 24px;
   font-family: system-ui, sans-serif;
   color: #222;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
-header {
-  text-align: center;
-  margin-bottom: 20px;
+.hud {
+  display: flex;
+  align-items: baseline;
+  gap: 24px;
+  padding: 12px 20px;
+  border-bottom: 1px solid #222;
+}
+
+.titre {
+  font-weight: bold;
 }
 
 .xp {
-  font-size: 2rem;
+  font-size: 1.3rem;
   font-weight: bold;
-  margin: 4px 0;
 }
 
 .stats {
@@ -73,11 +77,22 @@ header {
   font-size: 0.9rem;
 }
 
+.corps {
+  flex: 1;
+  display: flex;
+  min-height: 0;
+}
+
+.arene {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .bouton-farm {
-  display: block;
-  margin: 0 auto 32px;
-  padding: 18px 36px;
-  font-size: 1.2rem;
+  padding: 24px 48px;
+  font-size: 1.4rem;
   border: 1px solid #222;
   background: #eee;
   color: #222;
@@ -88,15 +103,21 @@ header {
   background: #ddd;
 }
 
-.colonnes {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 20px;
+.boutique {
+  width: 280px;
+  padding: 16px;
+  border-left: 1px solid #222;
+  overflow-y: auto;
 }
 
 h3 {
   border-bottom: 1px solid #ccc;
   padding-bottom: 6px;
+  margin-top: 20px;
+}
+
+h3:first-child {
+  margin-top: 0;
 }
 
 .carte-upgrade {

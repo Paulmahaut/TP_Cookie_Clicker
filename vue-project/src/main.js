@@ -6,4 +6,6 @@ const app = createApp(App)
 
 app.use(store)
 
+store.dispatch('demarrerProductionAuto')
+
 app.mount('#app')
